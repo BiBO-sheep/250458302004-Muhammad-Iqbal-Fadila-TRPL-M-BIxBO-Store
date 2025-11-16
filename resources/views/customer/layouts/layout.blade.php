@@ -14,8 +14,8 @@
 
 	<link rel="canonical" href="https://demo-basic.adminkit.io/pages-blank.html" />
 
-	<title>@yield('admin_page_title')</title>
- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+	<title>@yield('customer_page_title')</title>
+
 	<link href="{{ asset('admin_asset/static/css/app.css') }}" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -33,114 +33,31 @@
 						Main
 					</li>
 
-					<li class="sidebar-item {{request()->routeIs('admin')?'active':''}}">
-						<a class="sidebar-link" href="{{route('admin')}}">
+					<li class="sidebar-item {{request()->routeIs('dashboard')?'active':''}}">
+						<a class="sidebar-link" href="{{route('dashboard')}}">
               <i class="align-middle" data-feather="sliders"></i> <span class="align-middle">Dashboard</span>
             </a>
 					</li>
 
-                    <li class="sidebar-header">
-                        Category
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('category.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route('category.create')}}">
-              <i class="align-middle" data-feather="plus"></i> <span class="align-middle">Create</span>
+                    <li class="sidebar-item {{request()->routeIs('customer.history')?'active':''}}">
+						<a class="sidebar-link" href="{{route('customer.history')}}">
+              <i class="align-middle" data-feather="clipboard"></i> <span class="align-middle">Order History</span>
             </a>
 					</li>
 
-                    <li class="sidebar-item {{request()->routeIs('category.manage')?'active':''}}">
-						<a class="sidebar-link" href="{{route('category.manage')}}">
-              <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manage</span>
+                    <li class="sidebar-item {{request()->routeIs('customer.payment')?'active':''}}">
+						<a class="sidebar-link" href="{{route('customer.payment')}}">
+              <i class="align-middle" data-feather="credit-card"></i> <span class="align-middle">Payment</span>
             </a>
 					</li>
 
-                     <li class="sidebar-header">
-                        Sub Category
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('subcategory.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route('subcategory.create')}}">
-              <i class="align-middle" data-feather="plus"></i> <span class="align-middle">Create</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-item {{request()->routeIs('subcategory.manage')?'active':''}}">
-						<a class="sidebar-link" href="{{route('subcategory.manage')}}">
-              <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manage</span>
-            </a>
-					</li>
-
-                     <li class="sidebar-header">
-                        Attribute
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('productattribute.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route(name: 'productattribute.create')}}">
-              <i class="align-middle" data-feather="plus"></i> <span class="align-middle">Create</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-item {{request()->routeIs('productattribute.manage')?'active':''}}">
-						<a class="sidebar-link" href="{{route('productattribute.manage')}}">
-              <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manage</span>
-            </a>
-					</li>
-
-                     <li class="sidebar-header">
-                        Discount
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('discount.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route('discount.create')}}">
-              <i class="align-middle" data-feather="plus"></i> <span class="align-middle">Create</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-item {{request()->routeIs('discount.manage')?'active':''}}">
-						<a class="sidebar-link" href="{{route('discount.manage')}}">
-              <i class="align-middle" data-feather="list"></i> <span class="align-middle">Manage</span>
+                    <li class="sidebar-item {{request()->routeIs('customer.affiliate')?'active':''}}">
+						<a class="sidebar-link" href="{{route('customer.affiliate')}}">
+              <i class="align-middle" data-feather="users"></i> <span class="align-middle">Affiliate</span>
             </a>
 					</li>
 
 
-                    <li class="sidebar-header">
-                        Product
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('product.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route('product.create')}}">
-              <i class="align-middle" data-feather="shopping-bag"></i> <span class="align-middle">Manage Product</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-item {{request()->routeIs('product.review.manage')?'active':''}}">
-						<a class="sidebar-link" href="{{route('product.review.manage')}}">
-              <i class="align-middle" data-feather="star"></i> <span class="align-middle">Manage Review</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-header">
-                        History
-                    </li>
-
-					<li class="sidebar-item {{request()->routeIs('admin.cart.history')?'active':''}}">
-						<a class="sidebar-link" href="{{route('admin.cart.history')}}">
-              <i class="align-middle" data-feather="shopping-cart"></i> <span class="align-middle">Cart</span>
-            </a>
-					</li>
-
-                    <li class="sidebar-item {{request()->routeIs('admin.order.history')?'active':''}}">
-						<a class="sidebar-link" href="{{route('admin.order.history')}}">
-              <i class="align-middle" data-feather="list"></i> <span class="align-middle">Order</span>
-            </a>
-					</li>
-
-					<li class="sidebar-item {{request()->routeIs('admin.setting')?'active':''}}">
-						<a class="sidebar-link" href="{{route('admin.setting')}}">
-              <i class="align-middle" data-feather="gear"></i> <span class="align-middle">Settings</span>
-            </a>
-					</li>
 
 
 				</ul>
@@ -326,7 +243,7 @@
 
 			<main class="content">
                 <div class="container-fluid p-0">
-				@yield('admin_layout')
+				@yield('customer_layout')
                 </div>
 			</main>
 

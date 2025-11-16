@@ -2,18 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Category;
+use App\Models\Subcategory;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class SubCategoryController extends Controller
 {
     public function index()
     {
-        return view('admin.sub_category.create');
+        $categories = Category::all();
+        return view('admin.sub_category.create', compact('categories'));
     }
 
     public function manage()
     {
-        return view('admin.sub_category.manage');
+        $subcategories = Subcategory::all();
+        return view('admin.sub_category.manage', compact('subcategories'));
     }
 }
