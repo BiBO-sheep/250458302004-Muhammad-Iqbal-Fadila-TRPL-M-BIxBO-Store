@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Http\Controllers\Controller;
+use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class AdminMainController extends Controller
 {
@@ -14,7 +15,8 @@ class AdminMainController extends Controller
 
     public function setting()
     {
-        return view('admin.settings');
+        $products = Product::all();
+        return view('admin.settings', compact('products'));
     }
 
     public function manage_user()

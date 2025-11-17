@@ -15,9 +15,13 @@ use App\Http\Controllers\Seller\SellerProductController;
 use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\Customer\CustomerMainController;
 use App\Http\Controllers\Admin\ProductAttributeController;
+use App\Http\Controllers\HomePageController;
 use App\Livewire\HomepageComponent;
 
-Route::get('/', HomepageComponent::class)->name('home');
+
+Route::controller(HomePageController::class)->group(function(){
+    Route::get('/', 'index')->name('home');
+});
 
 
 // admin routes
