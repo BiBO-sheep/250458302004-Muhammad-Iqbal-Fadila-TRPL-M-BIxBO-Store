@@ -18,18 +18,18 @@ class HomePageSetting extends Model
         'featured_product_2_id'
     ];
 
-    public function discountProduct(){
-        return $this->belongsTo(Product::class);
+    public function discountedProduct(){
+        return $this->belongsTo(Product::class, 'discounted_product_id');
     }
 
-    public function featuredProduct()
+    public function featuredProduct1()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'featured_product_1_id');
     }
 
     public function featuredProduct2()
     {
-        return $this->belongsTo(Product::class);
+        return $this->belongsTo(Product::class, 'featured_product_2_id');
     }
 
 }

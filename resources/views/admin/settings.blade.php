@@ -21,43 +21,44 @@ Settings - Admin Panel
                         </div>
                     @endif
 
-                    @if (session('massage'))
+                    @if (session('success'))
     <div class="alert alert-success">
-        {{ session('massage') }}
+        {{ session('success') }}
                     @endif
 
 
 
 
-                    <form action="{{ route('store.cat') }}" method="POST">
+                    <form action="{{ route('admin.homepagesetting.update') }}" method="POST">
                         @csrf
+                        @method('PUT')
                         <label for="discounted_product_id" class="fw-bold mb-2">Select Discounted Product</label>
 <select name="discounted_product_id" id="discounted_product_id" class="form-control">
     @foreach($products as $product)
-        <option value="{{ $product->id }}">{{ $product->product_name }}</option>
+        <option value="{{ $product->id }}" {{ $homepagesetting->discounted_product_id == $product->id? 'selected':'' }}>{{ $product->product_name }}</option>
     @endforeach
 </select>
 
 <label for="discount_percent" class="fw-bold mb-2">Discount Percent</label>
-<input type="number" class="form-control" name="discount_percent">
+<input type="number" value="{{ $homepagesetting->discount_percent }}" class="form-control" name="discount_percent">
 
 <label for="discount_heading" class="fw-bold mb-2">Provide Discount Heading</label>
-<input type="text" class="form-control" name="discount_heading">
+<input type="text" value="{{ $homepagesetting->discount_heading }}" class="form-control" name="discount_heading">
 
 <label for="discount_subheading" class="fw-bold mb-2">Provide Discount Sub Text</label>
-<input type="text" class="form-control" name="discount_subheading">
+<input type="text" value="{{ $homepagesetting->discount_subheading }}" class="form-control" name="discount_subheading">
 
 <label for="featured_product_1_id" class="fw-bold mb-2">Select Featured Product 1</label>
 <select name="featured_product_1_id" id="featured_product_1_id" class="form-control">
     @foreach($products as $product)
-        <option value="{{ $product->id }}">{{ $product->product_name }}</option>
+       <option value="{{ $product->id }}" {{ $homepagesetting->featured_product_1_id == $product->id? 'selected':'' }}>{{ $product->product_name }}</option>
     @endforeach
 </select>
 
 <label for="featured_product_2_id" class="fw-bold mb-2">Select Featured Product 2</label>
 <select name="featured_product_2_id" id="featured_product_2_id" class="form-control">
     @foreach($products as $product)
-        <option value="{{ $product->id }}">{{ $product->product_name }}</option>
+         <option value="{{ $product->id }}" {{ $homepagesetting->featured_product_2_id == $product->id? 'selected':'' }}>{{ $product->product_name }}</option>
     @endforeach
 </select>
 

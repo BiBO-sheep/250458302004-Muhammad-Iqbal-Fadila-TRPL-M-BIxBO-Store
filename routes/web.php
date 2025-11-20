@@ -21,6 +21,7 @@ use App\Livewire\HomepageComponent;
 
 Route::controller(HomePageController::class)->group(function(){
     Route::get('/', 'index')->name('home');
+    Route::get('/category/{category_name}', 'showCategoryProducts')->name('productby.category');
 });
 
 
@@ -30,6 +31,7 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () 
         Route::controller(AdminMainController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('admin');
             Route::get('/settings', 'setting')->name('admin.setting');
+            Route::put('/settings/homepagesetting/update', 'updatehomepagesetting')->name('admin.homepagesetting.update');
             Route::get('/manage/users', 'manage_user')->name('admin.manage.users');
             Route::get('/manage/stores', 'manage_stores')->name('admin.manage.stores');
             Route::get('/cart/history', 'cart_history')->name('admin.cart.history');

@@ -23,6 +23,7 @@
 
     <!-- title -->
     <title>QuickCart || Details</title>
+    @livewireStyles
   </head>
 
   <body>
@@ -78,32 +79,20 @@
               <i class="fa-solid fa-angle-down"></i>
             </a>
 
+            @php
+                $categories = App\Models\Category::all();
+            @endphp
+
             <!-- dropdown links -->
             <ul class="dropdown-links">
-              <li>
-                <a href="#!">Accessories</a>
+                @foreach ($categories as $category)
+                <li>
+                <a href="{{ route('productby.category', $category->category_name) }}">{{ $category->category_name }}</a>
               </li>
+                @endforeach
+
               <li>
-                <a href="#!">Beauty</a>
-              </li>
-              <li>
-                <a href="#!">Electronics</a>
-              </li>
-              <li>
-                <a href="#!">Fashion</a>
-              </li>
-              <li>
-                <a href="#!">Kids</a>
-              </li>
-              <li>
-                <a href="#!">Shoes</a>
-              </li>
-              <li>
-                <a href="#!">Sports</a>
-              </li>
-              <li>
-                <a href="#!">Watches</a>
-              </li>
+
             </ul>
           </li>
 
@@ -145,6 +134,8 @@
         @yield('home')
 
        @livewire('FlashSellCountComponent')
+
+       @livewire('GlobalCartManager')
 
     </main>
 
@@ -224,6 +215,8 @@
       </div>
     </footer>
 
+    @livewireScripts
+
     <!-- javaScript -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
@@ -250,6 +243,32 @@
         }
       })
     </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Tunggu sampai Livewire selesai diinisialisasi
+    document.addEventListener('livewire:init', () => {
+
+        // Dengarkan event 'notify' yang dipancarkan dari Livewire
+        // Event ini menerima object dengan properti 'title' dan 'type' (dengan nilai default)
+        window.livewire.on('notify', ((title = 'Notification', type = 'info') => {
+            // Tampilkan di konsol browser (untuk debugging)
+            console.log('Livewire Notify received', title, type);
+
+            // Tampilkan notifikasi menggunakan SweetAlert2
+            Swal.fire({
+                toast: true, // Tipe notifikasi kecil yang muncul dari sudut
+                position: 'top-end', // Posisi muncul: kanan atas
+                icon: type, // Icon notifikasi (misalnya: 'success', 'error', 'warning', 'info')
+                title: title, // Judul atau pesan notifikasi
+                showConfirmButton: false, // Sembunyikan tombol konfirmasi
+                timer: 2500, // Notifikasi akan hilang setelah 2.5 detik
+                timerProgressBar: true, // Tampilkan progress bar waktu
+            });
+        }));
+    });
+</script>
   </body>
 
 </html>

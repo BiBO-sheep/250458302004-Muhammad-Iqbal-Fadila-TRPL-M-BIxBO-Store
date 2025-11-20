@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Models\HomePageSetting;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 
 class AdminMainController extends Controller
@@ -16,8 +18,28 @@ class AdminMainController extends Controller
     public function setting()
     {
         $products = Product::all();
-        return view('admin.settings', compact('products'));
+        $homepagesetting = HomePageSetting::first() ?? new HomePageSetting();
+        return view('admin.settings', compact('products', 'homepagesetting'));
     }
+    public function updatehomepagesetting(Request $request): RedirectResponse
+    {
+        $request->validate([
+            'discounted_product_id' => 'required|exists:products,id',
+            'discount_percent' => 'required|numeric|min:0',
+            'discount_heading' => 'required|string|max:255',
+            'discount_subheading' => 'required|string|max:255',
+            'featured_product_1_id' => 'nullable|exists:products,id',
+            'featured_product_2_id' => 'nullable|exists:products,id',
+        ]);
+        // Tambahkan logika pembaruan pengaturan di sini
+
+        $homepagesetting = HomePageSetting::first() ?? new HomePageSetting();
+        $homepagesetting->fill($request->all());
+        $homepagesetting->save();
+
+        return redirect()->route('admin.setting')->with('success', 'Homepage Setting Updated Successfully');
+    }
+
 
     public function manage_user()
     {
