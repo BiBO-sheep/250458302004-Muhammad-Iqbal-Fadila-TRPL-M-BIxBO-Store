@@ -91,8 +91,8 @@
                         Discount
                     </li>
 
-					<li class="sidebar-item {{request()->routeIs('discount.create')?'active':''}}">
-						<a class="sidebar-link" href="{{route('discount.create')}}">
+					<li class="sidebar-item {{request()->routeIs('homepage_setting.create')?'active':''}}">
+						<a class="sidebar-link" href="{{route('homepage_setting.create')}}">
               <i class="align-middle" data-feather="plus"></i> <span class="align-middle">Create</span>
             </a>
 					</li>

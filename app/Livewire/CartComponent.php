@@ -3,6 +3,9 @@
 namespace App\Livewire;
 
 use Livewire\Component;
+use App\Models\Order;
+use App\Models\OrderItem;
+use Illuminate\Support\Facades\Auth;
 
 class CartComponent extends Component
 {
@@ -83,6 +86,36 @@ class CartComponent extends Component
                 $quantity = $item['quantity'] ?? 0;
                 return $price * $quantity;
             });
+    }
+
+    public function checkout()
+    {
+        if (empty($this->cart)) {
+            $this->dispatch('notify', title: 'Keranjang kosong', type: 'error');
+            return;
+        }
+
+        $order = Order::create([
+            'user_id' => Auth::id(),
+            'total' => $this->total,
+            'status' => 'pending'
+        ]);
+
+        foreach ($this->cart as $productId => $item) {
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $productId,
+                'quantity' => $item['quantity'],
+                'price' => $item['price']
+            ]);
+        }
+
+        session()->forget('cart');
+        $this->dispatch('cartUpdated');
+
+        $this->dispatch('notify', title: 'Checkout berhasil!', type: 'success');
+
+        return redirect()->route('customer.order.show', $order->id);
     }
 
     public function render()

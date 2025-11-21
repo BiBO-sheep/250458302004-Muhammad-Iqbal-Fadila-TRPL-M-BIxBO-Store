@@ -16,8 +16,6 @@ use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\Customer\CustomerMainController;
 use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\HomePageController;
-use App\Livewire\HomepageComponent;
-
 
 Route::controller(HomePageController::class)->group(function(){
     Route::get('/', 'index')->name('home');
@@ -80,6 +78,12 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () 
 
         });
 
+        Route::controller(HomePageController::class)->group(function () {
+            Route::get('/homepage-setting/create', [HomePageController::class, 'create'])->name('homepage_setting.create');
+
+            Route::post('/homepage-setting/store', [HomePageController::class, 'store'])->name('homepage_setting.store');
+        });
+
 
         });
     });
@@ -109,17 +113,24 @@ Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function ()
 
 //  customer routes
 Route::middleware(['auth', 'verified', 'rolemanager:customer'])->group(function () {
+
     Route::prefix('user')->group(function () {
+
         Route::controller(CustomerMainController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('dashboard');
             Route::get('/order/history', 'history')->name('customer.history');
             Route::get('/setting/payment', 'payment')->name('customer.payment');
             Route::get('/affiliate', 'affiliate')->name('customer.affiliate');
-
         });
 
+        // Route untuk checkout
+        Route::post('/checkout', [CustomerMainController::class, 'checkout'])->name('customer.checkout');
+
+        // Route untuk menampilkan detail order
+        Route::get('/order/{order}', [CustomerMainController::class, 'showOrder'])->name('customer.order.show');
     });
 });
+
 
 
 Route::middleware('auth')->group(function () {

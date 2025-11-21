@@ -50,8 +50,8 @@
               <i class="fas fa-cart-plus"> </i>
             </a>
 
-            <a href="#!" class="btn-sm d-none d-sm-inline">
-              Sign In
+            <a href="{{ route('login') }}" class="btn-sm d-none d-sm-inline">
+              Login
             </a>
           </div>
 
