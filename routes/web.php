@@ -96,15 +96,22 @@ Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function ()
             Route::get('/order/history', 'orderhistory')->name('vendor.order.history');
 
         });
-        Route::controller(SellerProductController::class)->group(function () {
-            Route::get('/product/create', 'index')->name('vendor.product');
-            Route::post('/product/store', 'storeproduct')->name('vendor.product.store');
-            Route::get('/product/manage', 'manage')->name('vendor.product.manage');
+        Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function () {
+            Route::prefix('vendor')->group(function () {
+                Route::controller(SellerProductController::class)->group(function () {
+                    Route::get('/product/create', 'index')->name('vendor.product');
+                    Route::post('/product/store', 'storeproduct')->name('vendor.product.store');
+                    Route::get('/product/manage', 'manage')->name('vendor.product.manage');
+                    Route::delete('/product/{id}/delete', 'destroy')->name('vendor.product.destroy');
+                });
+            });
         });
+
         Route::controller(SellerStoreController::class)->group(function () {
             Route::get('/store/create', 'index')->name('vendor.store');
             Route::get('/store/manage', 'manage')->name('vendor.store.manage');
             Route::post('/store/publish', 'store')->name('create.store');
+            Route::delete('/product/delete/{id}', 'destroy')->name('vendor.product.destroy');
         });
 
 

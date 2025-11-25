@@ -39,7 +39,7 @@
                                     <td>{{ $store->slug }}</td>
                                     <td>{{ $store->details }}</td>
                                     <td>
-                                        <form action="" method="POST">
+                                        <form action="{{ route('vendor.product.manage') }}" method="POST">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" class="btn btn-danger">Delete</button>

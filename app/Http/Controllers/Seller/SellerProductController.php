@@ -75,4 +75,12 @@ class SellerProductController extends Controller
 
         return redirect()->back()->with('message', 'Product Added Successully');
     }
+
+    public function destroy($id)
+    {
+        $product = Product::findOrFail($id);
+        $product->delete();
+
+        return redirect()->back()->with('success', 'Produk berhasil dihapus!');
+    }
 }

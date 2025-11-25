@@ -38,4 +38,12 @@ class SellerStoreController extends Controller
 
         return redirect()->back()->with('massage', 'Category created successfully.');
     }
+
+    public function destroy($id)
+    {
+        $store = Store::findOrFail($id);
+        $store->delete();
+
+        return redirect()->route('vendor.product.manage');
+    }
 }

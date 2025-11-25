@@ -18,6 +18,12 @@ class HomePageSetting extends Model
         'featured_product_2_id'
     ];
 
+    public function index()
+{
+    $homepagesetting = HomepageSetting::with(['featuredProduct1', 'featuredProduct2'])->first();
+
+    return view('home.index', compact('homepagesetting'));
+}
     public function discountedProduct(){
         return $this->belongsTo(Product::class, 'discounted_product_id');
     }

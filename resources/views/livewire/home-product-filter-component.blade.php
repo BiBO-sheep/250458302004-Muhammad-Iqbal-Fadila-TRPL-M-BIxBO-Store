@@ -16,7 +16,7 @@
                             <i class="fas fa-fire-alt"></i>
                             <span>Hot in Sale</span>
                         </a>
-                        <button wire:click="filterCategor(null)" class="btn btn-md hot">All Product</button>
+                        <button wire:click="filterCategory(null)" class="btn btn-md hot">All Product</button>
                         @foreach ($categories as $category)
                             <button wire:click="filterCategory({{ $category->id }})"
                                 class="btn btn-md {{ $selectedCategory === $category->id ? 'hot' : '' }}">{{ $category->category_name }}</button>
@@ -34,9 +34,10 @@
                         <div class="card-md">
                             <!-- image -->
                             <div class="product-img">
-                                <img class="object-fit-contain" style="height: 200px;"
-                                    src="{{ asset('storage/product_images/LGTsFNGZWk0yugHmJw0GuD6mdK01PkxHKzlrYhoR.png') }}"
-                                    alt="">
+                              <img class="object-fit-contain" style="height: 200px;"
+     src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->image_path) : 'https://via.placeholder.com/200' }}"
+     alt="">
+
                             </div>
 
                             <h4 class="fw-semibold mb-2">{{ $product->product_name }}</h4>

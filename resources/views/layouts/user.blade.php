@@ -50,9 +50,22 @@
               <i class="fas fa-cart-plus"> </i>
             </a>
 
-            <a href="{{ route('login') }}" class="btn-sm d-none d-sm-inline">
-              Login
-            </a>
+            <!-- Jika user belum login -->
+@guest
+<a href="{{ route('login') }}" class="btn-sm d-none d-sm-inline">
+    Login
+</a>
+@endguest
+
+<!-- Jika user sudah login -->
+@auth
+<form action="{{ route('logout') }}" method="POST" class="d-inline">
+    @csrf
+    <button type="submit" class="btn-sm d-none d-sm-inline">
+        Logout
+    </button>
+</form>
+@endauth
           </div>
 
           <!-- cart -->

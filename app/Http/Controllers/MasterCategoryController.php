@@ -16,7 +16,7 @@ class MasterCategoryController extends Controller
 
         Category::create($validate_data);
 
-        return redirect()->back()->with('massage', 'Category created successfully.');
+        return redirect()->back()->with('message', 'Category created successfully.');
     }
 
     public function showcat($id)

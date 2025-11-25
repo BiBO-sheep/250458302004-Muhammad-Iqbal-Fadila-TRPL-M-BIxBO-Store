@@ -13,7 +13,7 @@ class ProductImage extends Model
         'product_id',
         'img_path',
         'is_primary',
-        
+
     ];
 
     public function product()
@@ -21,4 +21,8 @@ class ProductImage extends Model
         return $this->belongsTo(Product::class);
     }
 
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class);
+    }
 }
