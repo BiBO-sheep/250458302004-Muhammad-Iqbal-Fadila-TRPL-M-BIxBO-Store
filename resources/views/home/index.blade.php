@@ -3,7 +3,7 @@
     <!-- hero -->
     <section id="hero">
         <div class="container">
-            @if($homepagesetting)
+            @if ($homepagesetting)
                 <div class="row align-items-center">
                     <div class="col-lg-7">
                         <div class="card-lg mb-4 mb-lg-0">
@@ -19,12 +19,18 @@
                     </div>
 
                     <div class="col-lg-5">
-                        @if($homepagesetting->featuredProduct1)
+                        @if ($homepagesetting->featuredProduct1)
                             <div class="card-sm purple mb-3">
                                 <!-- product image -->
                                 <div class="product">
-                                    <img src="{{ asset('storage/product_images/Gc1fczJjvGWUs8UVxgduTf2fW635MJ23zcFGiBcg.png') }}"
-                                        alt="">
+                                    @if (!empty($featuredProduct1Images))
+                                        @foreach ($featuredProduct1Images as $image)
+                                            <img src="{{ asset('storage/' . $image) }}"
+                                                alt="{{ $homepagesetting->featuredProduct1->product_name }}">
+                                        @endforeach
+                                    @else
+                                        <img src="{{ asset('storage/product_images/default.png') }}" alt="No image">
+                                    @endif
                                 </div>
 
                                 <div>
@@ -34,7 +40,7 @@
                             </div>
                         @endif
 
-                        @if($homepagesetting->featuredProduct2)
+                        @if ($homepagesetting->featuredProduct2)
                             <div class="card-sm sky">
                                 <div>
                                     <h2>{{ $homepagesetting->featuredProduct2->product_name }}</h2>
@@ -43,8 +49,14 @@
 
                                 <!-- product image -->
                                 <div class="product">
-                                    <img src="{{ asset('storage/product_images/LjoIZu1nAQ48XysKgRYB4yBs4cBgfKdU6q87ZB46.png') }}"
-                                        alt="">
+                                    @if (!empty($featuredProduct2Images))
+                                        @foreach ($featuredProduct2Images as $image)
+                                            <img src="{{ asset('storage/' . $image) }}"
+                                                alt="{{ $homepagesetting->featuredProduct2->product_name }}">
+                                        @endforeach
+                                    @else
+                                        <img src="{{ asset('storage/product_images/default.png') }}" alt="No image">
+                                    @endif
                                 </div>
                             </div>
                         @endif

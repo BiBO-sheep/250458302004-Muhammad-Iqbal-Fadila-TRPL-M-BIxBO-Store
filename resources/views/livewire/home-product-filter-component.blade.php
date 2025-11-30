@@ -19,12 +19,11 @@
                         <button wire:click="filterCategory(null)" class="btn btn-md hot">All Product</button>
                         @foreach ($categories as $category)
                             <button wire:click="filterCategory({{ $category->id }})"
-                                class="btn btn-md {{ $selectedCategory === $category->id ? 'hot' : '' }}">{{ $category->category_name }}</button>
+                                class="btn btn-md {{ $selectedCategory === $category->id ? 'hot' : '' }}">
+                                {{ $category->category_name }}
+                            </button>
                         @endforeach
                         <a class="btn-md" href="#!">Gaming Equipments</a>
-                        {{-- <a class="btn-md" href="#!">Shoes</a>
-                <a class="btn-md" href="#!">Men's Fashion</a>
-                <a class="btn-md" href="#!">Home Decor</a> --}}
                     </div>
                 </div>
 
@@ -34,19 +33,22 @@
                         <div class="card-md">
                             <!-- image -->
                             <div class="product-img">
-                              <img class="object-fit-contain" style="height: 200px;"
-     src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->image_path) : 'https://via.placeholder.com/200' }}"
-     alt="">
-
+                                <img class="object-fit-contain" style="height: 200px;"
+                                    src="{{ $product->images->first() ? asset('storage/' . $product->images->first()->img_path) : 'https://via.placeholder.com/200' }}"
+                                    alt="{{ $product->product_name }}">
                             </div>
 
                             <h4 class="fw-semibold mb-2">{{ $product->product_name }}</h4>
                             <h4 class="fw-light mb-4">${{ number_format($product->discounted_price, 2) }}</h4>
 
                             <!-- add to cart -->
-                            <div class="add-cart-wrap" x-data="{quantity: 1}">
-                                <input type="number" min="1" max="{{ $product->stock_quantity }}" x-model="quantity" value="1">
-                                <a class="btn-md shadow-none" href="javascript:void(0)" @click="$dispatch('addToCartFromAnywhere', {productId: {{ $product->id }}, quantity: quantity})">Add to Cart</a>
+                            <div class="add-cart-wrap" x-data="{ quantity: 1 }">
+                                <input type="number" min="1" max="{{ $product->stock_quantity }}"
+                                    x-model="quantity" value="1">
+                                <a class="btn-md shadow-none" href="javascript:void(0)"
+                                    @click="$dispatch('addToCartFromAnywhere', {productId: {{ $product->id }}, quantity: quantity})">
+                                    Add to Cart
+                                </a>
                             </div>
 
                             <!-- cta -->
@@ -63,7 +65,6 @@
                     </div>
 
                 @empty
-
                     <div class="col-12 text-center">
                         <h5>No Product Found for this category</h5>
                     </div>
@@ -72,6 +73,4 @@
             </div>
         </div>
     </section>
-
-
 </div>

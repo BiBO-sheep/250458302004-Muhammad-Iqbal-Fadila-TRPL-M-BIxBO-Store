@@ -17,4 +17,11 @@ class Order extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    // Tambahkan di App/Models/Order.php
+
+    public function reviews()
+    {
+        return $this->hasMany(ReviewsTable::class);
+    }
 }

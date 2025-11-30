@@ -54,4 +54,27 @@ class Product extends Model
     {
         return $this->hasMany(ProductImage::class);
     }
+    // Tambahkan di App/Models/Product.php
+
+    public function reviews()
+    {
+        return $this->hasMany(ReviewsTable::class);
+    }
+
+    public function approvedReviews()
+    {
+        return $this->hasMany(ReviewsTable::class)->where('status', 'approved');
+    }
+
+    // Method untuk average rating
+    public function averageRating()
+    {
+        return $this->approvedReviews()->avg('rating') ?? 0;
+    }
+
+    // Method untuk total reviews
+    public function totalReviews()
+    {
+        return $this->approvedReviews()->count();
+    }
 }

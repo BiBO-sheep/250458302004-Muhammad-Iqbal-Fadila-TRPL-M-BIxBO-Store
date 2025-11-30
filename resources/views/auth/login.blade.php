@@ -174,7 +174,7 @@
                     <!-- Header -->
                     <div class="login-header">
                         <a class="logo" href="{{ url('/') }}">
-                            <span>QuickCart</span>
+                            <span>BIxBO Store</span>
                         </a>
                         <h1>Masuk ke Akun</h1>
                         <p>Selamat datang kembali</p>

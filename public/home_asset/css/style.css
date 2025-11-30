@@ -501,21 +501,134 @@ input[type="number"]::-webkit-inner-spin-button {
 /* ##### footer ##### */
 #footer {
   color: #fff;
-  margin-top: -120px;
-  padding: 150px 0 60px;
+  margin-top: 80px;
+  padding: 60px 0 30px;
   background: #080a29;
 }
 
+#footer .logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #ffffff;
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-decoration: none;
+  transition: opacity 0.3s ease;
+}
+
+#footer .logo:hover {
+  opacity: 0.8;
+}
+
+#footer .logo img {
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  filter: brightness(0) invert(1);
+}
+
+#footer .logo span {
+  color: #ffffff;
+}
+
+#footer p {
+  color: #b0b0b0;
+  line-height: 1.6;
+  font-size: 14px;
+  margin: 0;
+  font-weight: 300;
+}
+
+#footer .mt-3 {
+  margin-top: 1rem;
+}
+
 .footer-links {
-  gap: 14px;
+  gap: 12px;
   display: flex;
   font-weight: 300;
   flex-direction: column;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-links li {
+  margin-bottom: 0;
 }
 
 .footer-links .title {
   font-size: 18px;
   font-weight: 600;
+  color: #ffffff;
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+.footer-links a {
+  color: #b0b0b0;
+  text-decoration: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footer-links a:hover {
+  color: #ffffff;
+  padding-left: 5px;
+}
+
+#footer .border-top {
+  border-color: #1a1f4d !important;
+  margin-top: 20px;
+  padding-top: 20px;
+}
+
+#footer .text-center p {
+  color: #888888;
+  font-size: 13px;
+}
+
+/* Responsive Footer */
+@media (max-width: 991px) {
+  #footer {
+    padding: 40px 0 20px;
+    margin-top: 60px;
+  }
+
+  #footer .footer-links .title {
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+
+  #footer .mb-5 {
+    margin-bottom: 2rem !important;
+  }
+}
+
+@media (max-width: 767px) {
+  #footer {
+    text-align: center;
+    padding: 30px 0 20px;
+  }
+
+  #footer .logo {
+    justify-content: center;
+  }
+
+  #footer .footer-links a:hover {
+    padding-left: 0;
+  }
+
+  #footer .col-md-6 {
+    margin-bottom: 30px !important;
+  }
+
+  #footer .mb-lg-0 {
+    margin-bottom: 2rem !important;
+  }
 }
 
 /* ##### shoe - page ##### */

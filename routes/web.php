@@ -16,16 +16,23 @@ use App\Http\Controllers\Admin\ProductDiscountController;
 use App\Http\Controllers\Customer\CustomerMainController;
 use App\Http\Controllers\Admin\ProductAttributeController;
 use App\Http\Controllers\HomePageController;
+use App\Http\Controllers\ReviewController;;
+use App\Http\Controllers\Seller\SellerReviewController;
+use App\Http\Controllers\Admin\AdminReviewController;
+use App\Http\Controllers\StoreController as ControllersStoreController;
 
-Route::controller(HomePageController::class)->group(function(){
+Route::controller(HomePageController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/category/{category_name}', 'showCategoryProducts')->name('productby.category');
 });
 
+Route::get('/store', [ControllersStoreController::class, 'index'])->name('store');
 
 // admin routes
 Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () {
+
     Route::prefix('admin')->group(function () {
+
         Route::controller(AdminMainController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('admin');
             Route::get('/settings', 'setting')->name('admin.setting');
@@ -34,8 +41,8 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () 
             Route::get('/manage/stores', 'manage_stores')->name('admin.manage.stores');
             Route::get('/cart/history', 'cart_history')->name('admin.cart.history');
             Route::get('/order/history', 'order_history')->name('admin.order.history');
-
         });
+
         Route::controller(CategoryController::class)->group(function () {
             Route::get('/category/create', 'index')->name('category.create');
             Route::get('/category/manage', 'manage')->name('category.manage');
@@ -59,10 +66,12 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () 
             Route::put('/defaultattribute/update/{id}', 'updateattribute')->name('update.attribute');
             Route::delete('/defaultattribute/delete/{id}', 'deleteattribute')->name('delete.attribute');
         });
+
         Route::controller(ProductDiscountController::class)->group(function () {
             Route::get('/discount/create', 'index')->name('discount.create');
             Route::get('/discount/manage', 'manage')->name('discount.manage');
         });
+
         Route::controller(MasterCategoryController::class)->group(function () {
             Route::post('/store/category', 'storecat')->name('store.cat');
             Route::get('/category/{id}', 'showcat')->name('show.cat');
@@ -75,36 +84,42 @@ Route::middleware(['auth', 'verified', 'rolemanager:admin'])->group(function () 
             Route::get('/subcategory/{id}', 'showsubcat')->name('show.subcat');
             Route::put('/subcategory/update/{id}', 'updatesubcat')->name('update.subcat');
             Route::delete('/subcategory/delete/{id}', 'deletesubcat')->name('delete.subcat');
-
         });
 
         Route::controller(HomePageController::class)->group(function () {
             Route::get('/homepage-setting/create', [HomePageController::class, 'create'])->name('homepage_setting.create');
-
             Route::post('/homepage-setting/store', [HomePageController::class, 'store'])->name('homepage_setting.store');
         });
 
-
+        Route::controller(AdminReviewController::class)->group(function () {
+            Route::get('/reviews', [AdminReviewController::class, 'index'])->name('reviews.index');
+            Route::get('/reviews/{review}', [AdminReviewController::class, 'show'])->name('reviews.show');
+            Route::patch('/reviews/{review}/approve', [AdminReviewController::class, 'approve'])->name('reviews.approve');
+            Route::patch('/reviews/{review}/reject', [AdminReviewController::class, 'reject'])->name('reviews.reject');
+            Route::delete('/reviews/{review}', [AdminReviewController::class, 'destroy'])->name('reviews.destroy');
+            Route::post('/reviews/bulk-action', [AdminReviewController::class, 'bulkAction'])->name('reviews.bulk-action');
         });
-    });
+    }); // END ADMIN PREFIX
 
-    //  vendor routes
+}); // END ADMIN MIDDLEWARE
+
+
+
+// vendor routes
 Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function () {
+
     Route::prefix('vendor')->group(function () {
+
         Route::controller(SellerMainController::class)->group(function () {
             Route::get('/dashboard', 'index')->name('vendor');
             Route::get('/order/history', 'orderhistory')->name('vendor.order.history');
-
         });
-        Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function () {
-            Route::prefix('vendor')->group(function () {
-                Route::controller(SellerProductController::class)->group(function () {
-                    Route::get('/product/create', 'index')->name('vendor.product');
-                    Route::post('/product/store', 'storeproduct')->name('vendor.product.store');
-                    Route::get('/product/manage', 'manage')->name('vendor.product.manage');
-                    Route::delete('/product/{id}/delete', 'destroy')->name('vendor.product.destroy');
-                });
-            });
+
+        Route::controller(SellerProductController::class)->group(function () {
+            Route::get('/product/create', 'index')->name('vendor.product');
+            Route::post('/product/store', 'storeproduct')->name('vendor.product.store');
+            Route::get('/product/manage', 'manage')->name('vendor.product.manage');
+            Route::delete('/product/{id}/delete', 'destroy')->name('vendor.product.destroy');
         });
 
         Route::controller(SellerStoreController::class)->group(function () {
@@ -114,11 +129,18 @@ Route::middleware(['auth', 'verified', 'rolemanager:vendor'])->group(function ()
             Route::delete('/product/delete/{id}', 'destroy')->name('vendor.product.destroy');
         });
 
+        Route::controller(SellerReviewController::class)->group(function () {
+            Route::get('/reviews', [SellerReviewController::class, 'index'])->name('reviews.index');
+            Route::post('/reviews/{review}/reply', [SellerReviewController::class, 'reply'])->name('reviews.reply');
+            Route::delete('/reviews/{review}/reply', [SellerReviewController::class, 'deleteReply'])->name('reviews.delete-reply');
+        });
+    }); // END VENDOR PREFIX
 
-    });
-});
+}); // END VENDOR MIDDLEWARE
 
-//  customer routes
+
+
+// customer routes
 Route::middleware(['auth', 'verified', 'rolemanager:customer'])->group(function () {
 
     Route::prefix('user')->group(function () {
@@ -130,13 +152,18 @@ Route::middleware(['auth', 'verified', 'rolemanager:customer'])->group(function 
             Route::get('/affiliate', 'affiliate')->name('customer.affiliate');
         });
 
-        // Route untuk checkout
         Route::post('/checkout', [CustomerMainController::class, 'checkout'])->name('customer.checkout');
-
-        // Route untuk menampilkan detail order
         Route::get('/order/{order}', [CustomerMainController::class, 'showOrder'])->name('customer.order.show');
+    }); // END USER PREFIX
+    Route::controller(ReviewController::class)->group(function () {
+        Route::get('/products/{product}/review/create', 'create')->name('reviews.create');
+        Route::post('/products/{product}/review', 'store')->name('reviews.store');
+        Route::get('/my-reviews', 'myReviews')->name('reviews.my-reviews');
+        Route::get('/reviews/{review}/edit', 'edit')->name('reviews.edit');
+        Route::put('/reviews/{review}', 'update')->name('reviews.update');
+        Route::delete('/reviews/{review}', 'destroy')->name('reviews.destroy');
     });
-});
+}); // END CUSTOMER MIDDLEWARE
 
 
 
@@ -145,5 +172,6 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
 
 require __DIR__ . '/auth.php';

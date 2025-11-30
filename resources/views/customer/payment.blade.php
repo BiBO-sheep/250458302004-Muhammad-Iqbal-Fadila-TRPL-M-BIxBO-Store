@@ -1,10 +1,7 @@
 @extends('customer.layouts.layout')
 
-@section('customer_page_title')
-Customer - Payment
-@endsection
 
-@section('customer_layout')
+@section('content')
 <div class="container-fluid">
     <h3 class="mb-4">Customer Payment Page</h3>
 
@@ -50,4 +47,11 @@ Customer - Payment
         </div>
     @endif
 </div>
+<!-- Di user dropdown menu -->
+<li><hr class="dropdown-divider"></li>
+<li>
+    <a class="dropdown-item" href="{{ route('reviews.my-reviews') }}">
+        <i class="bi bi-star me-2"></i>My Reviews
+    </a>
+</li>
 @endsection

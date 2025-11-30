@@ -9,23 +9,109 @@ use App\Models\HomePageSetting;
 
 class HomePageController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         $homepagesetting = HomePageSetting::with([
-                'discountedProduct.images',
-                'featuredProduct1.images',
-                'featuredProduct2.images',
+            'discountedProduct',
+            'featuredProduct1',
+            'featuredProduct2',
         ])->first();
 
+        // Ambil gambar untuk featured product 1
+        $featuredProduct1Images = [];
+        if ($homepagesetting->featuredProduct1) {
+            $featuredProduct1Images = $homepagesetting->featuredProduct1->images()
+                ->pluck('img_path')
+                ->toArray();
+        }
 
-        return view('home.index', compact('homepagesetting'));
+        // Ambil gambar untuk featured product 2
+        $featuredProduct2Images = [];
+        if ($homepagesetting->featuredProduct2) {
+            $featuredProduct2Images = $homepagesetting->featuredProduct2->images()
+                ->pluck('img_path')
+                ->toArray();
+        }
+
+        return view('home.index', compact(
+            'homepagesetting',
+            'featuredProduct1Images',
+            'featuredProduct2Images'
+        ));
     }
 
-    public function showCategoryProducts($category_name) {
+    public function showCategoryProducts(Request $request, $category_name)
+    {
         $category = Category::where('category_name', $category_name)->firstOrFail();
 
-        $products = Product::where('category_id', $category->id)->get();
+        // Get all categories for filter
+        $categories = Category::all();
 
-        return view('home.categories', compact('category', 'products'));
+        // Get max price for price range
+        $maxPrice = Product::max('discounted_price') ?? 10000;
+
+        // Get products with filtering support
+        $productsQuery = Product::with(['images', 'category'])
+            ->whereHas('category', function ($query) use ($category_name) {
+                $query->where('category_name', $category_name);
+            });
+
+        // Apply category filters if any
+        if ($request->has('categories') && !empty($request->categories)) {
+            $selectedCategories = is_array($request->categories)
+                ? $request->categories
+                : explode(',', $request->categories);
+
+            $productsQuery->whereHas('category', function ($query) use ($selectedCategories) {
+                $query->whereIn('id', $selectedCategories);
+            });
+        }
+
+        // Apply price filter if any
+        if ($request->has('min_price') && $request->has('max_price')) {
+            $minPrice = $request->min_price;
+            $maxPriceFilter = $request->max_price;
+            $productsQuery->whereBetween('discounted_price', [$minPrice, $maxPriceFilter]);
+        }
+
+        // Apply status filters if any
+        if ($request->has('statuses') && !empty($request->statuses)) {
+            $selectedStatuses = is_array($request->statuses)
+                ? $request->statuses
+                : explode(',', $request->statuses);
+
+            $productsQuery->where(function ($query) use ($selectedStatuses) {
+                if (in_array('in-stock', $selectedStatuses)) {
+                    $query->orWhere('stock_quantity', '>', 0); // Asumsikan kolom stock_quantity
+                }
+                if (in_array('on-sale', $selectedStatuses)) {
+                    $query->orWhere('is_on_sale', true); // Asumsikan kolom is_on_sale
+                }
+                if (in_array('discontinued', $selectedStatuses)) {
+                    $query->orWhere('is_discontinued', true); // Asumsikan kolom is_discontinued
+                }
+            });
+        }
+
+        // Check if it's an AJAX request for filtering
+        if ($request->ajax()) {
+            $products = $productsQuery->paginate(12); // Gunakan paginate untuk performa
+
+            return response()->json([
+                'success' => true,
+                'html' => view('home.partials.products_grid', compact('products'))->render(),
+                'count' => $products->count()
+            ]);
+        }
+
+        $products = $productsQuery->paginate(12); // Gunakan paginate untuk halaman utama
+
+        return view('home.categories', compact(
+            'category',
+            'products',
+            'categories',
+            'maxPrice'
+        ));
     }
 
     public function create()

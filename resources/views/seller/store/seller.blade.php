@@ -1,9 +1,5 @@
-@extends('admin.layouts.layout')
-@section('admin_page_title')
-Manage Product - Admin Panel
-@endsection
-@section('admin_layout')
-    <li class="nav-item">
+<!-- Di sidebar seller -->
+<li class="nav-item">
     <a class="nav-link {{ request()->routeIs('seller.reviews.*') ? 'active' : '' }}"
        href="{{ route('seller.reviews.index') }}">
         <i class="bi bi-star me-2"></i>
@@ -18,7 +14,3 @@ Manage Product - Admin Panel
         @endif
     </a>
 </li>
-
-@endsection
-<!-- Di sidebar seller -->
-
