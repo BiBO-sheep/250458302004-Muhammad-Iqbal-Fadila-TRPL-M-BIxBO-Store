@@ -6,7 +6,7 @@
             <div class="col-lg-4 mb-4">
                 <div class="d-flex align-items-center mb-3">
                     <a class="logo d-flex align-items-center text-decoration-none" href="{{ url('/') }}">
-                        <span class="h3 mb-0 fw-bold text-dark">QuickCart</span>
+                        <span class="h3 mb-0 fw-bold text-dark">BIxBO Store</span>
                     </a>
                 </div>
                 <p class="text-secondary mb-2">

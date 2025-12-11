@@ -27,7 +27,7 @@
         <nav id="sidebar" class="sidebar js-sidebar">
             <div class="sidebar-content js-simplebar">
                 <a class="sidebar-brand" href="{{ route('dashboard') }}">
-                    <span class="align-middle">AdminKit</span>
+                    <span class="align-middle">BIxBO Store</span>
                 </a>
 
                 <ul class="sidebar-nav">
@@ -92,6 +92,9 @@
                             <div class="dropdown-menu">
                                 <a class="dropdown-item" href="{{ route('profile.edit') }}">
                                     <i class="align-middle me-1" data-feather="user"></i> Profile
+                                </a>
+                                <a class="dropdown-item" href="/">
+                                    <i class="align-middle me-1" data-feather="home"></i> Home
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <form action="{{ route('logout') }}" method="POST" class="d-inline">

@@ -18,13 +18,43 @@ class CustomerMainController extends Controller
 
     public function history()
     {
-        return view('customer.history');
+        $orders = Order::with('items.product')
+            ->where('user_id', Auth::id())
+            ->where('status', 'paid')
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        return view('customer.history', compact('orders'));
     }
+
 
     public function payment()
     {
         return view('customer.payment');
     }
+
+    public function payOrder(Request $request, Order $order)
+    {
+        // Pastikan order milik user yang login
+        if ($order->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        // Pastikan hanya order pending yang bisa dibayar
+        if ($order->status !== 'pending') {
+            return back()->with('error', 'Order ini tidak bisa dibayar.');
+        }
+
+        // Update status order
+        $order->update([
+            'status' => 'paid'
+        ]);
+
+        return redirect()
+            ->route('customer.payment')
+            ->with('success', 'Pembayaran berhasil ✅');
+    }
+
 
     public function affiliate()
     {
@@ -62,7 +92,7 @@ class CustomerMainController extends Controller
         // Kosongkan keranjang
         session()->forget('cart');
 
-        return redirect()->route('customer.order.show', $order->id)->with('success', 'Checkout berhasil!');
+        return redirect()->route('customer.payment', $order->id)->with('success', 'Checkout berhasil!');
     }
 
     public function showOrder(Order $order)

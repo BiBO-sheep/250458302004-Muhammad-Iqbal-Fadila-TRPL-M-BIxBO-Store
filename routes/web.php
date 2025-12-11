@@ -150,6 +150,9 @@ Route::middleware(['auth', 'verified', 'rolemanager:customer'])->group(function 
             Route::get('/order/history', 'history')->name('customer.history');
             Route::get('/setting/payment', 'payment')->name('customer.payment');
             Route::get('/affiliate', 'affiliate')->name('customer.affiliate');
+
+            Route::post('/order/{order}/pay', 'payOrder')
+                ->name('customer.order.pay');
         });
 
         Route::post('/checkout', [CustomerMainController::class, 'checkout'])->name('customer.checkout');

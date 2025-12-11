@@ -154,7 +154,7 @@
 
         @livewire('GlobalCartManager')
 
-   
+
     </main>
 
     <!-- footer -->
